@@ -23,9 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        new Handler().postDelayed(() -> {
-            checkUserStatus();
-        }, 2000);
+        new Handler().postDelayed(this::checkUserStatus, 2000);
     }
 
     private void checkUserStatus() {

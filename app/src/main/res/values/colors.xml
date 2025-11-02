@@ -15,4 +15,5 @@
     <color name="status_approved">#FF4CAF50</color>
     <color name="status_rejected">#FFF44336</color>
     <color name="darker_gray">#616161</color>
+    <color name="darkerGray">#A9A9A9</color>
 </resources>

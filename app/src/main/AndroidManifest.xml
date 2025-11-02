@@ -1,12 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.volunteerapp">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA"
+        tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <application
         android:allowBackup="true"
@@ -17,11 +22,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VolunteerApp"
-        tools:targetApi="31">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31"
+        tools:replace="android:allowBackup">
 
+        <!-- User Type Selection Activity (Launcher) -->
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".activities.UserTypeSelectionActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,48 +38,81 @@
             </intent-filter>
         </activity>
 
+        <!-- Login Activity -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
 
+        <!-- Signup Activity -->
         <activity
             android:name=".activities.SignupActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
 
-        <activity
-            android:name=".activities.UserTypeSelectionActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
+        <!-- Volunteer Home Activity -->
         <activity
             android:name=".activities.VolunteerHomeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" />
 
+        <!-- Event Details Activity -->
         <activity
             android:name=".activities.EventDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/event_details"
+            android:parentActivityName=".activities.VolunteerHomeActivity" />
 
+        <!-- Volunteer Dashboard Activity -->
         <activity
             android:name=".activities.VolunteerDashboardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/my_dashboard" />
 
+        <!-- Organizer Dashboard Activity -->
         <activity
             android:name=".activities.OrganizerDashboardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/organizer_dashboard" />
 
+        <!-- Create Event Activity -->
         <activity
             android:name=".activities.CreateEventActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/create_event"
+            android:parentActivityName=".activities.OrganizerDashboardActivity"
+            android:windowSoftInputMode="adjustResize" />
 
+        <!-- Manage Volunteers Activity -->
         <activity
             android:name=".activities.ManageVolunteersActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/manage_volunteers"
+            android:parentActivityName=".activities.OrganizerDashboardActivity" />
 
+        <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_GOOGLE_MAPS_API_KEY" />
+            android:value="YOUR_GOOGLE_MAPS_API_KEY_HERE" />
+
+        <!-- Firebase Cloud Messaging -->
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
     </application>
 
