@@ -26,75 +26,60 @@
         tools:targetApi="31"
         tools:replace="android:allowBackup">
 
-        <!-- User Type Selection Activity (Launcher) -->
+        <!-- Signup Activity (Launcher) -->
         <activity
-            android:name=".activities.UserTypeSelectionActivity"
+            android:name=".activities.SignupActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.VolunteerApp"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Login Activity -->
-        <activity
-            android:name=".activities.LoginActivity"
+        <!-- Other Activities -->
+        <activity android:name=".activities.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- Signup Activity -->
-        <activity
-            android:name=".activities.SignupActivity"
+        <activity android:name=".activities.UserTypeSelectionActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- Volunteer Home Activity -->
-        <activity
-            android:name=".activities.VolunteerHomeActivity"
+        <activity android:name=".activities.VolunteerHomeActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:label="@string/app_name" />
 
-        <!-- Event Details Activity -->
-        <activity
-            android:name=".activities.EventDetailsActivity"
+        <activity android:name=".activities.EventDetailsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:label="@string/event_details"
             android:parentActivityName=".activities.VolunteerHomeActivity" />
 
-        <!-- Volunteer Dashboard Activity -->
-        <activity
-            android:name=".activities.VolunteerDashboardActivity"
+        <activity android:name=".activities.VolunteerDashboardActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:label="@string/my_dashboard" />
 
-        <!-- Organizer Dashboard Activity -->
-        <activity
-            android:name=".activities.OrganizerDashboardActivity"
+        <activity android:name=".activities.OrganizerDashboardActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:label="@string/organizer_dashboard" />
 
-        <!-- Create Event Activity -->
-        <activity
-            android:name=".activities.CreateEventActivity"
+        <activity android:name=".activities.CreateEventActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:label="@string/create_event"
             android:parentActivityName=".activities.OrganizerDashboardActivity"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- Manage Volunteers Activity -->
-        <activity
-            android:name=".activities.ManageVolunteersActivity"
+        <activity android:name=".activities.ManageVolunteersActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:label="@string/manage_volunteers"
@@ -103,12 +88,13 @@
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_GOOGLE_MAPS_API_KEY_HERE" />
+            android:value="AIzaSyBLNSJHHifroERAW8FTGdePrROP7lXva6w" />
 
-        <!-- Firebase Cloud Messaging -->
+        <!-- Firebase Messaging Service -->
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
-            android:exported="false">
+            android:exported="true"
+            tools:replace="android:exported">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

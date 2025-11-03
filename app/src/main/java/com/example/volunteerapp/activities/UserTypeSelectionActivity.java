@@ -1,21 +1,24 @@
 package com.example.volunteerapp.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import com.example.volunteerapp.R;
 import com.example.volunteerapp.models.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserTypeSelectionActivity extends AppCompatActivity {
 
-    private Button volunteerButton, organizerButton;
+    private CardView volunteerCard, organizerCard;
     private FirebaseFirestore db;
 
     private String userId, name, email, phone;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,36 +32,38 @@ public class UserTypeSelectionActivity extends AppCompatActivity {
         email = getIntent().getStringExtra("email");
         phone = getIntent().getStringExtra("phone");
 
-        volunteerButton = findViewById(R.id.volunteerButton);
-        organizerButton = findViewById(R.id.organizerButton);
+        // Match CardView IDs from XML
+        volunteerCard = findViewById(R.id.volunteerCard);
+        organizerCard = findViewById(R.id.organizerCard);
 
-        volunteerButton.setOnClickListener(v -> {
-            saveUserType("volunteer");
-        });
+        volunteerCard.setOnClickListener(v -> saveUserType("volunteer"));
+        organizerCard.setOnClickListener(v -> saveUserType("organizer"));
+        Log.d("UserTypeSelection", "userId = " + userId);
 
-        organizerButton.setOnClickListener(v -> {
-            saveUserType("organizer");
-        });
     }
-
     private void saveUserType(String userType) {
+        if (userId == null || userId.isEmpty()) {
+            Toast.makeText(this, "User ID is missing. Cannot save user type.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         User user = new User(userId, name, email, phone, userType);
 
         db.collection("users")
                 .document(userId)
                 .set(user)
                 .addOnSuccessListener(aVoid -> {
-                    Intent intent;
-                    if ("organizer".equals(userType)) {
-                        intent = new Intent(UserTypeSelectionActivity.this, OrganizerDashboardActivity.class);
-                    } else {
-                        intent = new Intent(UserTypeSelectionActivity.this, VolunteerHomeActivity.class);
-                    }
+                    Intent intent = "organizer".equals(userType)
+                            ? new Intent(this, OrganizerDashboardActivity.class)
+                            : new Intent(this, VolunteerHomeActivity.class);
                     startActivity(intent);
                     finish();
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
     }
+
+
+
 }

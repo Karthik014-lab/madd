@@ -115,13 +115,26 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void saveUserToDatabase(String userId, String name, String email, String phone) {
-        // Redirect to user type selection
-        Intent intent = new Intent(SignupActivity.this, UserTypeSelectionActivity.class);
-        intent.putExtra("userId", userId);
-        intent.putExtra("name", name);
-        intent.putExtra("email", email);
-        intent.putExtra("phone", phone);
-        startActivity(intent);
-        finish();
+        User user = new User(userId, name, email, phone, null); // userType is null for now
+
+        db.collection("users")
+                .document(userId)
+                .set(user)
+                .addOnSuccessListener(aVoid -> {
+                    Intent intent = new Intent(SignupActivity.this, UserTypeSelectionActivity.class);
+                    intent.putExtra("userId", userId);
+                    intent.putExtra("name", name);
+                    intent.putExtra("email", email);
+                    intent.putExtra("phone", phone);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE);
+                    signupButton.setEnabled(true);
+                    Toast.makeText(SignupActivity.this,
+                            "Error saving user: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                });
     }
 }
