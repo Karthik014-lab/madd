@@ -10,7 +10,6 @@ android {
     defaultConfig {
         applicationId = "com.example.volunteerapp"
         minSdk = 24
-        //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -38,6 +37,7 @@ android {
 }
 
 dependencies {
+    // AndroidX and UI
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -45,22 +45,32 @@ dependencies {
     implementation(libs.recyclerview)
     implementation(libs.cardview)
 
+    // Firebase BOM and services
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.messaging)
 
+    // Firebase App Check (Play Integrity or SafetyNet)
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    // Or use SafetyNet instead:
+    // implementation("com.google.firebase:firebase-appcheck-safetynet")
+
+    // Google Play Services
     implementation(libs.play.services.auth)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
 
+    // Image loading
     implementation(libs.glide)
     annotationProcessor(libs.glide.compiler)
 
+    // QR code scanning
     implementation(libs.zxing.core)
     implementation(libs.zxing.embedded)
 
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

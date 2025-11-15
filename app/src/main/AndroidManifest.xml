@@ -43,13 +43,13 @@
         <activity android:name=".activities.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/Theme.VolunteerApp"
             android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".activities.UserTypeSelectionActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.VolunteerApp" />
 
         <activity android:name=".activities.VolunteerHomeActivity"
             android:exported="false"

@@ -1,6 +1,9 @@
 package com.example.volunteerapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,7 +12,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.volunteerapp.R;
 import com.example.volunteerapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +58,9 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(v -> registerUser());
 
         loginTextView.setOnClickListener(v -> {
-            finish();
+            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish(); // Optional: prevents back navigation to signup
         });
     }
 
@@ -63,6 +70,11 @@ public class SignupActivity extends AppCompatActivity {
         String phone = phoneEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
+
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (TextUtils.isEmpty(name)) {
             nameEditText.setError("Name is required");
@@ -99,28 +111,31 @@ public class SignupActivity extends AppCompatActivity {
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
+                    progressBar.setVisibility(View.GONE);
+                    signupButton.setEnabled(true);
+
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser != null) {
                             saveUserToDatabase(firebaseUser.getUid(), name, email, phone);
                         }
                     } else {
-                        progressBar.setVisibility(View.GONE);
-                        signupButton.setEnabled(true);
                         Toast.makeText(SignupActivity.this,
                                 "Registration failed: " + task.getException().getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
     private void saveUserToDatabase(String userId, String name, String email, String phone) {
+        progressBar.setVisibility(View.VISIBLE);
         User user = new User(userId, name, email, phone, null); // userType is null for now
 
         db.collection("users")
                 .document(userId)
                 .set(user)
                 .addOnSuccessListener(aVoid -> {
+                    progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(SignupActivity.this, UserTypeSelectionActivity.class);
                     intent.putExtra("userId", userId);
                     intent.putExtra("name", name);
@@ -131,10 +146,15 @@ public class SignupActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     progressBar.setVisibility(View.GONE);
-                    signupButton.setEnabled(true);
                     Toast.makeText(SignupActivity.this,
                             "Error saving user: " + e.getMessage(),
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_LONG).show();
                 });
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm != null ? cm.getActiveNetworkInfo() : null;
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 }
