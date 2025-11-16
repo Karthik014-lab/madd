@@ -7,6 +7,7 @@
 
     <!-- Top App Bar -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -21,6 +22,7 @@
 
     <!-- Scrollable content -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -32,16 +34,23 @@
             android:padding="16dp">
 
             <!-- Search -->
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="499dp"
+                app:srcCompat="@drawable/img_2" />
+
             <EditText
                 android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="Search events by name or city"
-                android:padding="12dp"
                 android:background="@drawable/search_background"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="12dp"
-                android:inputType="text" />
+                android:hint="Search events by name or city"
+                android:inputType="text"
+                android:padding="12dp" />
 
             <!-- Recommended -->
             <TextView
@@ -49,10 +58,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Recommended for You"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black" />
+                android:textStyle="bold" />
 
+            <!-- All Events -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recommendedRecyclerView"
                 android:layout_width="match_parent"
@@ -60,15 +70,14 @@
                 android:layout_marginTop="12dp"
                 android:clipToPadding="false" />
 
-            <!-- All Events -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="All Events"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black" />
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/eventsRecyclerView"

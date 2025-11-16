@@ -18,27 +18,34 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="510dp"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="94dp"
             android:background="@android:color/white"
+            app:tabIndicatorColor="@color/primary"
             app:tabMode="fixed"
-            app:tabTextColor="@android:color/darker_gray"
             app:tabSelectedTextColor="@color/primary"
-            app:tabIndicatorColor="@color/primary" />
+            app:tabTextColor="@android:color/darker_gray" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="438dp"
+            android:layout_height="463dp"
+            app:srcCompat="@drawable/img_1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/eventsRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="12dp"
-            android:clipToPadding="false" />
+            android:layout_height="297dp"
+            android:clipToPadding="false"
+            android:padding="12dp" />
 
     </LinearLayout>
 

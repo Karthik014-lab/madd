@@ -15,11 +15,10 @@
         android:gravity="center">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/ic_volunteer"
-            android:contentDescription="@string/app_name" />
+            android:id="@+id/imageView2"
+            android:layout_width="343dp"
+            android:layout_height="154dp"
+            app:srcCompat="@drawable/img" />
 
         <TextView
             android:layout_width="wrap_content"
